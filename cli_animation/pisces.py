@@ -15,4 +15,4 @@ while True:
     move_shape(draw_square, screen, location_coord, direction_vector, size, height, width)
     location_coord, direction_vector = update_location(location_coord, direction_vector, size, height, width)
     display_pixels(screen)
-    time.sleep(0.1)
+    time.sleep(0.3)
