@@ -15,8 +15,13 @@ def get_screen(height, width):
 def display_pixels(screen):
     """Updates the display each frame."""
     for row in screen:
-
         print("".join("#" if not pixel else " " for pixel in row))
+
+
+def display_pixels_inverted(screen):
+    """Updates the display each frame with inverted colors."""
+    for row in screen:
+        print("".join(" "if not pixel else "#" for pixel in row))
 
 
 def draw_square(screen, location_coord,  size):
@@ -58,9 +63,29 @@ def update_location(location_coord, direction_vector, size, height, width):
     return location_coord, direction_vector
 
 
-def move_shape(draw_fn, screen, location_coord, direction_vector, size, height, width):
+def move_shape(draw_fn, screen, location_coord, size):
     """Draws the shape at the next location depending on the direction vector."""
     # Border logic here...
     # Make the shape bounce around the borders
     
     draw_fn(screen, location_coord, size)
+
+
+def get_neighbors(screen, location_coord):
+    """
+    Finds the neighbors of a cell in the screen.
+    """
+    # x for column, y for row
+    x, y = location_coord
+    rows, cols = len(screen), len(screen[0])
+    directions = [(-1, -1), (-1, 0), (-1, 1),
+                  ( 0, -1),          ( 0, 1),
+                  ( 1, -1), ( 1, 0), ( 1, 1)]
+    
+    neighbors = []
+    for dx, dy in directions:
+        new_x, new_y = x + dx, y + dy
+        if 0 <= new_x < cols and 0 <= new_y < rows:
+            val = screen[new_y][new_x]
+            neighbors.append(val)
+    return neighbors
