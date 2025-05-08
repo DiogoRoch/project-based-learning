@@ -3,6 +3,7 @@
 import time
 from scripts import clear_screen, get_screen, display_pixels, display_pixels_inverted, get_neighbors, draw_square, update_location
 import random
+import argparse
 
 def evaluate_conway_one(screen, location_coord):
     """Evaluates the next state of the cell at location_coord based on Conway's rules."""
@@ -41,16 +42,20 @@ def evaluate_conway(screen):
     return new_screen
 
 
-# Initialize the parameters
-height, width = 60, 180
-location_coord = [6, 3]
-direction_vector = [1, 1]
-size = 2
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Conway's Game of Life")
+    parser.add_argument("--height", type=int, default=60, help="Height of the screen")
+    parser.add_argument("--width", type=int, default=180, help="Width of the screen")
+    args = parser.parse_args()
 
-# Initialize the screen (randomly 1 or 0)
-screen = [[random.randint(0, 1) for _ in range(width)] for _ in range(height)]
-while True:
-    clear_screen()
-    display_pixels_inverted(screen)
-    screen = evaluate_conway(screen)
-    time.sleep(0.3)
+    height = args.height
+    width = args.width
+
+    # Initialize the screen (randomly 1 or 0)
+    screen = [[random.randint(0, 1) for _ in range(width)] for _ in range(height)]
+    
+    while True:
+        clear_screen()
+        display_pixels_inverted(screen)
+        screen = evaluate_conway(screen)
+        time.sleep(0.3)
